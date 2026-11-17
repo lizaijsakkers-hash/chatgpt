@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mijn ChatGPT</title>
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #212121;
+  color: white;
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 230px;
+  background: #171717;
+  padding: 20px;
+}
+
+.sidebar h2 { color: #10a37f; }
+
+.new {
+  background: #333;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 { margin-top: 30px; }
+
+#messages {
+  width: 90%;
+  max-width: 750px;
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.message {
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 15px;
+  line-height: 1.5;
+}
+
+.user {
+  background: #343434;
+  margin-left: 15%;
+}
+
+.bot {
+  background: #292929;
+  margin-right: 15%;
+}
+
+.input-area {
+  width: 90%;
+  max-width: 750px;
+  display: flex;
+  background: #303030;
+  border-radius: 20px;
+  padding: 10px;
+  margin-bottom: 25px;
+}
+
+input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+}
+
+button {
+  background: #10a37f;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+button:hover { background: #0b8063; }
+
+@media(max-width:600px) {
+  .sidebar { width: 90px; padding: 8px; }
+  .sidebar p { font-size: 11px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+  <h2>🤖 GPT</h2>
+  <div class="new" onclick="newChat()">＋ Nieuwe chat</div>
+  <p>💬 Mijn ChatGPT</p>
+</div>
+
+<div class="main">
+  <h1>Wat kan ik voor je doen? ✨</h1>
+
+  <div id="messages">
+    <div class="message bot">
+      Hallo! 👋 Welkom bij mijn mini ChatGPT!
+      Waarmee kan ik je helpen?
+    </div>
+  </div>
+
+  <div class="input-area">
+    <input id="input" placeholder="Stuur een bericht..."
+    onkeydown="if(event.key==='Enter')sendMessage()">
+    <button onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<script>
+const messages = document.getElementById("messages");
+const input = document.getElementById("input");
+
+function addMessage(text, type) {
+  const div = document.createElement("div");
+  div.className = "message " + type;
+  div.textContent = text;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function sendMessage() {
+  let text = input.value.trim();
+  if (!text) return;
+
+  addMessage(text, "user");
+  input.value = "";
+
+  setTimeout(() => {
+    addMessage(getAnswer(text), "bot");
+  }, 500);
+}
+
+function getAnswer(text) {
+  let t = text.toLowerCase();
+
+  if(t.includes("hallo") || t.includes("hoi"))
+    return "Halloooo! 😊 Hoe gaat het met je?";
+
+  if(t.includes("hoe gaat het"))
+    return "Met mij gaat alles goed! 💚 Hoe gaat het met jou?";
+
+  if(t.includes("naam"))
+    return "Ik ben Mini GPT! 🤖";
+
+  if(t.includes("roblox"))
+    return "Roblox is superleuk! 🎮 Welk spel speel je graag?";
+
+  if(t.includes("grap"))
+    return "Waarom kan een computer nooit liegen? Omdat hij altijd zijn cookies bewaart! 😂";
+
+  if(t.includes("bedankt"))
+    return "Graag gedaan! 💚";
+
+  if(t.includes("dag") || t.includes("doei"))
+    return "Doeiii! Tot de volgende keer! 👋";
+
+  if(t.includes("ai"))
+    return "AI betekent kunstmatige intelligentie. 🤖";
+
+  return "Dat is interessant! 😊 Vertel me er meer over!";
+}
+
+function newChat() {
+  messages.innerHTML = "";
+  addMessage("Nieuwe chat gestart! Waar wil je over praten? 💚", "bot");
+}
+</script>
+
+</body>
+</html>
